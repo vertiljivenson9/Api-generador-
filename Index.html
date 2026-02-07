@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>yOs App Key Generator</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔑</text></svg>">
     <style>
         * {
             margin: 0;
@@ -12,25 +11,10 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #4285f4;
-            --primary-dark: #3367d6;
-            --secondary: #34a853;
-            --danger: #ea4335;
-            --warning: #fbbc05;
-            --dark: #202124;
-            --light: #f8f9fa;
-            --gray: #dadce0;
-            --border: #e0e0e0;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --radius: 8px;
-            --transition: all 0.2s ease;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #333;
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
@@ -43,91 +27,135 @@
             width: 100%;
             max-width: 800px;
             background: white;
-            border-radius: var(--radius);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
-        header {
-            background: var(--dark);
+        .header {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
             color: white;
-            padding: 25px 30px;
+            padding: 32px 40px;
             text-align: center;
         }
 
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
         }
 
-        header p {
-            color: var(--gray);
-            font-size: 0.95rem;
+        .header p {
             opacity: 0.9;
+            font-size: 15px;
         }
 
-        .main-content {
-            padding: 30px;
+        .content {
+            padding: 40px;
         }
 
         .step {
             display: none;
-            animation: fadeIn 0.3s ease;
         }
 
         .step.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
 
-        .step h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary);
-            color: var(--dark);
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e8f0fe;
         }
 
         .form-group {
             margin-bottom: 24px;
         }
 
-        label {
+        .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 0.95rem;
+            font-weight: 500;
+            color: #444;
+            font-size: 14px;
         }
 
-        .required::after {
+        .form-group .required::after {
             content: " *";
-            color: var(--danger);
+            color: #d93025;
         }
 
-        input, select, textarea {
+        .form-control {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 1rem;
-            transition: var(--transition);
-            background: white;
+            padding: 12px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.2s;
+            background: #fff;
         }
 
-        input:focus, select:focus, textarea:focus {
+        .form-control:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .form-hint {
+            display: block;
+            margin-top: 6px;
+            color: #5f6368;
+            font-size: 13px;
+        }
+
+        .monetization-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .monetization-option {
+            padding: 20px 16px;
+            border: 2px solid #dadce0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fff;
+        }
+
+        .monetization-option:hover {
+            border-color: #1a73e8;
+            background: #f8f9ff;
+        }
+
+        .monetization-option.selected {
+            border-color: #1a73e8;
+            background: #e8f0fe;
+        }
+
+        .option-title {
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .option-desc {
+            font-size: 12px;
+            color: #5f6368;
         }
 
         .price-input {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .price-input input {
@@ -135,159 +163,109 @@
         }
 
         .currency {
-            font-weight: bold;
-            color: var(--primary);
+            font-weight: 600;
+            color: #1a73e8;
             min-width: 50px;
         }
 
-        .monetization-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .monetization-option {
-            padding: 20px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
+        .icon-upload-area {
+            border: 2px dashed #dadce0;
+            border-radius: 10px;
+            padding: 40px 20px;
             text-align: center;
             cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            transition: all 0.2s;
+            margin-bottom: 20px;
         }
 
-        .monetization-option:hover {
-            border-color: var(--primary);
-            background: rgba(66, 133, 244, 0.05);
-        }
-
-        .monetization-option.selected {
-            border-color: var(--primary);
-            background: rgba(66, 133, 244, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .option-icon {
-            font-size: 2rem;
-        }
-
-        .option-title {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .option-desc {
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .icon-upload {
-            border: 3px dashed var(--border);
-            border-radius: var(--radius);
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .icon-upload:hover {
-            border-color: var(--primary);
-            background: rgba(66, 133, 244, 0.05);
-        }
-
-        .icon-upload input[type="file"] {
-            display: none;
+        .icon-upload-area:hover {
+            border-color: #1a73e8;
+            background: #f8f9ff;
         }
 
         .upload-label {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            color: #666;
+            gap: 12px;
+            color: #5f6368;
             cursor: pointer;
         }
 
         .upload-icon {
-            font-size: 3rem;
-            color: var(--primary);
+            font-size: 40px;
+            color: #1a73e8;
         }
 
         .icon-preview {
             width: 100px;
             height: 100px;
-            border-radius: 20px;
+            border-radius: 18px;
             overflow: hidden;
-            margin: 15px auto;
-            box-shadow: var(--shadow);
-            border: 3px solid white;
-            background: var(--light);
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: #f8f9fa;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .icon-preview img {
-            width: 100%;
-            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
         }
 
         .step-navigation {
             display: flex;
             justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
         }
 
-        button {
-            padding: 12px 25px;
+        .btn {
+            padding: 12px 28px;
             border: none;
-            border-radius: var(--radius);
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: #1a73e8;
             color: white;
         }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
+        .btn-primary:hover:not(:disabled) {
+            background: #0d62d9;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
         }
 
         .btn-secondary {
-            background: var(--light);
-            color: var(--dark);
-            border: 1px solid var(--border);
+            background: #f8f9fa;
+            color: #444;
+            border: 1px solid #dadce0;
         }
 
         .btn-secondary:hover {
-            background: var(--gray);
+            background: #f1f3f4;
         }
 
         .btn-success {
-            background: var(--secondary);
+            background: #34a853;
             color: white;
         }
 
         .btn-success:hover {
             background: #2e8b47;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
+            box-shadow: 0 4px 12px rgba(52, 168, 83, 0.2);
         }
 
         .result-container {
@@ -295,59 +273,59 @@
         }
 
         .api-key-display {
-            background: var(--dark);
-            color: var(--warning);
+            background: #f8f9fa;
+            color: #1a73e8;
             padding: 20px;
-            border-radius: var(--radius);
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
             word-break: break-all;
-            margin: 25px 0;
-            border: 2px solid #333;
+            margin: 24px 0;
+            border: 1px solid #e8f0fe;
             text-align: left;
             max-height: 200px;
             overflow-y: auto;
-            white-space: pre-wrap;
         }
 
         .config-preview {
-            background: var(--light);
+            background: #f8f9fa;
             padding: 20px;
-            border-radius: var(--radius);
+            border-radius: 10px;
             text-align: left;
-            margin: 25px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            white-space: pre;
+            margin: 24px 0;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
             overflow-x: auto;
-            border: 1px solid var(--border);
+            border: 1px solid #eee;
+            line-height: 1.4;
         }
 
         .actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 24px;
         }
 
         .step-indicator {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
-            gap: 5px;
+            margin-bottom: 32px;
+            gap: 8px;
         }
 
         .step-dot {
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: var(--gray);
-            transition: var(--transition);
+            background: #dadce0;
+            transition: all 0.2s;
         }
 
         .step-dot.active {
-            background: var(--primary);
+            background: #1a73e8;
             transform: scale(1.2);
         }
 
@@ -356,14 +334,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
                 width: calc(100% - 20px);
             }
 
-            .main-content {
-                padding: 20px;
+            .content {
+                padding: 24px;
+            }
+
+            .field-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
             }
 
             .monetization-options {
@@ -372,10 +361,10 @@
 
             .step-navigation {
                 flex-direction: column;
-                gap: 10px;
+                gap: 12px;
             }
 
-            button {
+            .btn {
                 width: 100%;
                 justify-content: center;
             }
@@ -384,13 +373,10 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>
-                <span>🔑</span>
-                yOs App Key Generator
-            </h1>
-            <p>Crea tu API Key codificada para publicar aplicaciones en yOs</p>
-        </header>
+        <div class="header">
+            <h1>yOs App Key Generator</h1>
+            <p>Genera tu API key codificada para publicar aplicaciones en yOs</p>
+        </div>
 
         <div class="step-indicator">
             <div class="step-dot active" id="step1Dot"></div>
@@ -398,65 +384,68 @@
             <div class="step-dot" id="step3Dot"></div>
         </div>
 
-        <div class="main-content">
+        <div class="content">
             <!-- Paso 1: Información básica -->
             <div class="step active" id="step1">
-                <h2>📝 Información Básica</h2>
+                <div class="step-title">Información Básica</div>
                 
                 <div class="form-group">
                     <label for="appName" class="required">Nombre de la Aplicación</label>
-                    <input type="text" id="appName" placeholder="Ej: Calculadora Pro, Editor de Fotos, Juego Puzzle" maxlength="50" required>
-                    <small style="color: #666; margin-top: 5px; display: block;">Máximo 50 caracteres</small>
+                    <input type="text" id="appName" class="form-control" placeholder="Ej: Calculadora Pro, Editor de Fotos" maxlength="50" required>
+                    <span class="form-hint">Máximo 50 caracteres</span>
                 </div>
 
                 <div class="form-group">
-                    <label for="appVersion" class="required">Versión</label>
-                    <input type="text" id="appVersion" value="1.0.0" pattern="^\d+\.\d+\.\d+$" required>
-                    <small style="color: #666; margin-top: 5px; display: block;">Formato: X.Y.Z (Ej: 1.0.0, 2.1.5)</small>
+                    <label for="appId" class="required">ID de la Aplicación</label>
+                    <input type="text" id="appId" class="form-control" placeholder="com.empresa.app" required>
+                    <span class="form-hint">Formato: com.empresa.nombre</span>
                 </div>
 
-                <div class="form-group">
-                    <label for="appType" class="required">Tipo de Aplicación</label>
-                    <select id="appType">
-                        <option value="app">Aplicación</option>
-                        <option value="game">Juego</option>
-                        <option value="tool">Herramienta</option>
-                        <option value="utility">Utilidad</option>
-                        <option value="productivity">Productividad</option>
-                        <option value="development">Desarrollo</option>
-                        <option value="multimedia">Multimedia</option>
-                    </select>
+                <div class="field-row">
+                    <div class="form-group">
+                        <label for="appVersion" class="required">Versión</label>
+                        <input type="text" id="appVersion" class="form-control" value="1.0.0" pattern="^\d+\.\d+\.\d+$" required>
+                        <span class="form-hint">Formato: X.Y.Z</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appType" class="required">Tipo</label>
+                        <select id="appType" class="form-control">
+                            <option value="app">Aplicación</option>
+                            <option value="game">Juego</option>
+                            <option value="tool">Herramienta</option>
+                            <option value="utility">Utilidad</option>
+                            <option value="productivity">Productividad</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="step-navigation">
-                    <button type="button" class="btn-secondary" disabled>
-                        <span>◀</span> Anterior
+                    <button type="button" class="btn btn-secondary" disabled>
+                        Anterior
                     </button>
-                    <button type="button" class="btn-primary" onclick="nextStep()">
-                        Siguiente <span>▶</span>
+                    <button type="button" class="btn btn-primary" onclick="validateStep1()">
+                        Siguiente
                     </button>
                 </div>
             </div>
 
             <!-- Paso 2: Monetización e Icono -->
             <div class="step" id="step2">
-                <h2>💰 Monetización</h2>
+                <div class="step-title">Monetización y Apariencia</div>
                 
                 <div class="form-group">
                     <label class="required">Modelo de Monetización</label>
                     <div class="monetization-options">
                         <div class="monetization-option" onclick="selectMonetization('free')">
-                            <div class="option-icon">🆓</div>
                             <div class="option-title">Gratis</div>
                             <div class="option-desc">Sin costo para usuarios</div>
                         </div>
                         <div class="monetization-option" onclick="selectMonetization('paid')">
-                            <div class="option-icon">💰</div>
                             <div class="option-title">Pago Único</div>
                             <div class="option-desc">Compra una sola vez</div>
                         </div>
                         <div class="monetization-option" onclick="selectMonetization('subscription')">
-                            <div class="option-icon">🔄</div>
                             <div class="option-title">Suscripción</div>
                             <div class="option-desc">Pago recurrente</div>
                         </div>
@@ -466,47 +455,56 @@
                 <div class="form-group" id="priceGroup" style="display: none;">
                     <label for="appPrice" class="required">Precio (USD)</label>
                     <div class="price-input">
-                        <input type="number" id="appPrice" min="0.99" max="999.99" step="0.01" value="4.99">
+                        <input type="number" id="appPrice" class="form-control" min="0.99" max="999.99" step="0.01" value="4.99">
                         <div class="currency">USD</div>
                     </div>
-                    <small style="color: #666; margin-top: 5px; display: block;">Rango: $0.99 - $999.99</small>
+                    <span class="form-hint">Rango: $0.99 - $999.99</span>
                 </div>
 
-                <h2 style="margin-top: 40px;">🖼️ Icono de la Aplicación</h2>
-                
                 <div class="form-group">
-                    <div class="icon-upload">
-                        <label class="upload-label" for="iconUpload">
+                    <label for="authorName" class="required">Nombre del Desarrollador</label>
+                    <input type="text" id="authorName" class="form-control" placeholder="Tu nombre o nombre de empresa" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="authorEmail" class="required">Email del Desarrollador</label>
+                    <input type="email" id="authorEmail" class="form-control" placeholder="dev@ejemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Icono de la Aplicación</label>
+                    <div class="icon-upload-area" onclick="document.getElementById('iconUpload').click()">
+                        <div class="upload-label">
                             <div class="upload-icon">📁</div>
                             <div>
-                                <div><strong>Haz clic o arrastra tu icono aquí</strong></div>
+                                <div style="font-weight: 500; margin-bottom: 4px;">Haz clic para subir tu icono</div>
                                 <div>SVG, PNG o JPG • Recomendado 512×512px</div>
                             </div>
-                            <input type="file" id="iconUpload" accept=".svg,.png,.jpg,.jpeg" onchange="previewIcon(event)">
-                        </label>
+                        </div>
                     </div>
+                    <input type="file" id="iconUpload" accept=".svg,.png,.jpg,.jpeg" onchange="previewIcon(event)" style="display: none;">
                     
                     <div class="icon-preview" id="iconPreview">
-                        <div style="color: #999; font-size: 0.9rem;">Vista previa</div>
+                        <div style="color: #999; font-size: 14px;">Vista previa</div>
                     </div>
                 </div>
 
                 <div class="step-navigation">
-                    <button type="button" class="btn-secondary" onclick="prevStep()">
-                        <span>◀</span> Anterior
+                    <button type="button" class="btn btn-secondary" onclick="prevStep()">
+                        Anterior
                     </button>
-                    <button type="button" class="btn-primary" onclick="generateKey()">
-                        Generar API Key <span>✨</span>
+                    <button type="button" class="btn btn-primary" onclick="validateStep2()">
+                        Generar API Key
                     </button>
                 </div>
             </div>
 
             <!-- Paso 3: Resultado -->
             <div class="step" id="step3">
-                <h2>✅ API Key Generada</h2>
+                <div class="step-title">API Key Generada</div>
                 
                 <div class="result-container">
-                    <p>¡Tu API Key ha sido creada exitosamente! Cópiala y úsala en tu aplicación.</p>
+                    <p style="color: #5f6368; margin-bottom: 24px;">Tu API key ha sido creada exitosamente. Cópiala y úsala en tu aplicación.</p>
                     
                     <div class="api-key-display" id="apiKeyDisplay">
                         <!-- La API Key aparecerá aquí -->
@@ -526,23 +524,23 @@ if (typeof window.yOS !== 'undefined') {
                     </div>
                     
                     <div class="actions">
-                        <button type="button" class="btn-success" onclick="copyApiKey()">
-                            <span>📋</span> Copiar API Key
+                        <button type="button" class="btn btn-success" onclick="copyApiKey()">
+                            Copiar API Key
                         </button>
-                        <button type="button" class="btn-primary" onclick="downloadConfig()">
-                            <span>💾</span> Descargar Config
+                        <button type="button" class="btn btn-primary" onclick="downloadConfig()">
+                            Descargar Config
                         </button>
-                        <button type="button" class="btn-secondary" onclick="startOver()">
-                            <span>🔄</span> Crear Otra
+                        <button type="button" class="btn btn-secondary" onclick="startOver()">
+                            Crear Otra
                         </button>
                     </div>
                     
-                    <div style="margin-top: 30px; padding: 15px; background: #f0f8ff; border-radius: var(--radius); border-left: 4px solid var(--primary);">
-                        <strong>📌 Instrucciones:</strong>
-                        <ol style="text-align: left; margin-top: 10px; padding-left: 20px;">
-                            <li>Copia la API Key generada arriba</li>
-                            <li>Pégalo en tu archivo <code>app.js</code></li>
-                            <li>Usa el código de ejemplo para registrar tu app</li>
+                    <div style="margin-top: 32px; padding: 20px; background: #f0f7ff; border-radius: 10px; border-left: 4px solid #1a73e8; text-align: left;">
+                        <div style="font-weight: 600; color: #1a73e8; margin-bottom: 12px;">Instrucciones de uso:</div>
+                        <ol style="padding-left: 20px; color: #5f6368;">
+                            <li style="margin-bottom: 8px;">Copia la API Key generada arriba</li>
+                            <li style="margin-bottom: 8px;">Pégalo en tu archivo app.js</li>
+                            <li style="margin-bottom: 8px;">Usa el código de ejemplo para registrar tu app</li>
                             <li>Cuando publiques, el sistema yOs decodificará automáticamente toda la información</li>
                         </ol>
                     </div>
@@ -555,10 +553,15 @@ if (typeof window.yOS !== 'undefined') {
         // Datos de la aplicación
         const appData = {
             name: '',
+            id: '',
             version: '1.0.0',
             type: 'app',
             monetization: 'free',
             price: 0,
+            author: {
+                name: '',
+                email: ''
+            },
             iconData: null,
             iconType: null
         };
@@ -568,28 +571,6 @@ if (typeof window.yOS !== 'undefined') {
 
         // Funciones de navegación
         function nextStep() {
-            if (currentStep === 1) {
-                // Validar paso 1
-                const name = document.getElementById('appName').value.trim();
-                const version = document.getElementById('appVersion').value.trim();
-                
-                if (!name || !version) {
-                    alert('Por favor completa todos los campos obligatorios');
-                    return;
-                }
-                
-                if (!/^\d+\.\d+\.\d+$/.test(version)) {
-                    alert('La versión debe seguir el formato X.Y.Z (Ej: 1.0.0)');
-                    return;
-                }
-                
-                // Guardar datos
-                appData.name = name;
-                appData.version = version;
-                appData.type = document.getElementById('appType').value;
-            }
-            
-            // Cambiar paso
             document.getElementById(`step${currentStep}`).classList.remove('active');
             document.getElementById(`step${currentStep}Dot`).classList.remove('active');
             
@@ -607,6 +588,41 @@ if (typeof window.yOS !== 'undefined') {
             
             document.getElementById(`step${currentStep}`).classList.add('active');
             document.getElementById(`step${currentStep}Dot`).classList.add('active');
+        }
+
+        // Validación paso 1
+        function validateStep1() {
+            const name = document.getElementById('appName').value.trim();
+            const id = document.getElementById('appId').value.trim();
+            const version = document.getElementById('appVersion').value.trim();
+            
+            if (!name) {
+                alert('Por favor ingresa el nombre de la aplicación');
+                return;
+            }
+            
+            if (!id) {
+                alert('Por favor ingresa el ID de la aplicación');
+                return;
+            }
+            
+            if (!/^[a-z]+\.[a-z]+\.[a-z]+$/.test(id)) {
+                alert('El ID debe seguir el formato: com.empresa.nombre');
+                return;
+            }
+            
+            if (!version || !/^\d+\.\d+\.\d+$/.test(version)) {
+                alert('La versión debe seguir el formato X.Y.Z (Ej: 1.0.0)');
+                return;
+            }
+            
+            // Guardar datos
+            appData.name = name;
+            appData.id = id;
+            appData.version = version;
+            appData.type = document.getElementById('appType').value;
+            
+            nextStep();
         }
 
         // Monetización
@@ -630,8 +646,8 @@ if (typeof window.yOS !== 'undefined') {
             } else {
                 priceGroup.style.display = 'block';
                 priceInput.value = type === 'paid' ? '4.99' : '1.99';
-                priceInput.min = type === 'subscription' ? '0.99' : '0.99';
-                priceInput.step = type === 'subscription' ? '0.01' : '0.01';
+                priceInput.min = '0.99';
+                priceInput.step = '0.01';
             }
         }
 
@@ -640,14 +656,12 @@ if (typeof window.yOS !== 'undefined') {
             const file = event.target.files[0];
             if (!file) return;
             
-            // Validar tipo
             const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg', 'image/jpg'];
             if (!validTypes.includes(file.type)) {
                 alert('Formato no válido. Usa SVG, PNG o JPG.');
                 return;
             }
             
-            // Validar tamaño (max 2MB)
             if (file.size > 2 * 1024 * 1024) {
                 alert('El archivo es muy grande. Máximo 2MB.');
                 return;
@@ -664,9 +678,26 @@ if (typeof window.yOS !== 'undefined') {
             reader.readAsDataURL(file);
         }
 
-        // Generar API Key
-        function generateKey() {
-            // Validar paso 2
+        // Validación paso 2 y generación de API Key
+        function validateStep2() {
+            const authorName = document.getElementById('authorName').value.trim();
+            const authorEmail = document.getElementById('authorEmail').value.trim();
+            
+            if (!authorName) {
+                alert('Por favor ingresa el nombre del desarrollador');
+                return;
+            }
+            
+            if (!authorEmail) {
+                alert('Por favor ingresa el email del desarrollador');
+                return;
+            }
+            
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(authorEmail)) {
+                alert('Por favor ingresa un email válido');
+                return;
+            }
+            
             if (appData.monetization !== 'free') {
                 const price = parseFloat(document.getElementById('appPrice').value);
                 if (isNaN(price) || price < 0.99 || price > 999.99) {
@@ -676,92 +707,201 @@ if (typeof window.yOS !== 'undefined') {
                 appData.price = price;
             }
             
-            // Validar icono
-            if (!appData.iconData) {
-                if (!confirm('No has subido un icono. ¿Continuar sin icono? (Recomendado: subir icono)')) {
-                    return;
+            appData.author.name = authorName;
+            appData.author.email = authorEmail;
+            
+            generateApiKey();
+        }
+
+        // Generar API Key completa
+        function generateApiKey() {
+            // Construir el JSON completo con valores por defecto
+            const fullConfig = {
+                app: {
+                    id: appData.id,
+                    name: appData.name,
+                    version: appData.version,
+                    versionCode: parseInt(appData.version.replace(/\./g, '')),
+                    description: `${appData.name} - Una aplicación para yOs`,
+                    author: {
+                        name: appData.author.name,
+                        email: appData.author.email,
+                        website: ""
+                    },
+                    license: "Proprietary"
+                },
+                monetization: {
+                    type: appData.monetization,
+                    price: appData.price,
+                    currency: "USD",
+                    subscription: appData.monetization === 'subscription' ? {
+                        interval: "monthly",
+                        trialDays: 7,
+                        tiers: []
+                    } : undefined,
+                    inAppPurchases: [],
+                    adSupport: false,
+                    adNetworks: []
+                },
+                technical: {
+                    entryPoint: "index.html",
+                    minimumKernelVersion: "1.0.0",
+                    targetKernelVersion: "1.2.0",
+                    architecture: "web",
+                    environment: "browser",
+                    requiredPermissions: ["fs.read", "fs.write", "network"],
+                    optionalPermissions: [],
+                    dependencies: [
+                        {
+                            name: "yOs-sdk",
+                            version: "^1.0.0"
+                        }
+                    ],
+                    apis: ["filesystem", "payments", "notifications"]
+                },
+                ui: {
+                    icon: {
+                        svg: appData.iconType === 'image/svg+xml' ? "icon.svg" : undefined,
+                        png: appData.iconType && appData.iconType !== 'image/svg+xml' ? {
+                            "16": "icons/16x16.png",
+                            "32": "icons/32x32.png",
+                            "64": "icons/64x64.png",
+                            "128": "icons/128x128.png",
+                            "256": "icons/256x256.png",
+                            "512": "icons/512x512.png"
+                        } : undefined
+                    },
+                    theme: {
+                        primaryColor: "#1a73e8",
+                        secondaryColor: "#34a853",
+                        darkMode: true,
+                        accentColor: "#ea4335"
+                    },
+                    window: {
+                        defaultWidth: 800,
+                        defaultHeight: 600,
+                        minWidth: 400,
+                        minHeight: 300,
+                        maxWidth: 1920,
+                        maxHeight: 1080,
+                        resizable: true,
+                        minimizable: true,
+                        maximizable: true,
+                        closable: true,
+                        alwaysOnTop: false,
+                        transparent: false,
+                        frame: true
+                    },
+                    splashScreen: {
+                        enabled: true,
+                        image: "splash.png",
+                        backgroundColor: "#ffffff",
+                        duration: 2000
+                    }
+                },
+                features: {
+                    offlineSupport: true,
+                    pwa: true,
+                    backgroundService: false,
+                    multiwindow: false,
+                    dragAndDrop: true,
+                    keyboardShortcuts: []
+                },
+                content: {
+                    rating: "E",
+                    categories: [appData.type],
+                    tags: [appData.type],
+                    ageRating: 13,
+                    contentDescriptors: []
+                },
+                store: {
+                    releaseNotes: `Versión ${appData.version}\n- Primera versión de la aplicación`,
+                    keywords: [appData.type],
+                    supportedLanguages: ["en", "es"],
+                    screenshots: [],
+                    promoVideo: "",
+                    privacyPolicy: "privacy.md",
+                    termsOfService: "terms.md",
+                    supportUrl: ""
+                },
+                build: {
+                    timestamp: new Date().toISOString(),
+                    buildNumber: "100",
+                    signature: "",
+                    compression: "zip",
+                    encryption: false
+                },
+                analytics: {
+                    trackingId: "",
+                    events: ["install", "launch", "purchase"],
+                    crashReporting: true,
+                    performanceMonitoring: true
                 }
-            }
-            
-            // Crear metadata
-            const metadata = {
-                n: appData.name.substring(0, 50),
-                v: appData.version,
-                t: appData.type,
-                m: appData.monetization,
-                p: appData.price,
-                c: 'USD',
-                ts: Date.now(),
-                ct: Math.floor(Date.now() / 1000)
             };
-            
-            // Agregar icono si existe
-            if (appData.iconData) {
-                metadata.i = true;
-                metadata.it = appData.iconType;
-            }
-            
+
+            // Eliminar propiedades undefined
+            const cleanConfig = JSON.parse(JSON.stringify(fullConfig));
+
             // 1. Convertir a JSON y comprimir
-            const jsonString = JSON.stringify(metadata);
+            const jsonString = JSON.stringify(cleanConfig);
             const compressed = btoa(unescape(encodeURIComponent(jsonString)));
             
-            // 2. Generar hash simple (en producción usar SHA-256)
+            // 2. Generar hash simple
             const hash = simpleHash(compressed).substring(0, 8);
             
             // 3. Crear API Key
             const priceInCents = Math.round(appData.price * 100);
-            const monetizationCode = appData.monetization.charAt(0); // f, p, s
+            const monetizationCode = appData.monetization.charAt(0);
+            const versionCode = '1';
             
-            const apiKey = `yos_app_1_${monetizationCode}_${priceInCents}_${hash}_${compressed}`;
+            const apiKey = `yos_app_${versionCode}_${monetizationCode}_${priceInCents}_${hash}_${compressed}`;
             
             // Mostrar resultado
             document.getElementById('apiKeyDisplay').textContent = apiKey;
             
             // Mostrar código de ejemplo
-            document.getElementById('configPreview').textContent = `// Configuración para yOs
+            document.getElementById('configPreview').textContent = `// Configuración completa para yOs
 const YOS_APP_CONFIG = "${apiKey}";
 
 // Inicializar aplicación
 if (typeof window.yOS !== 'undefined') {
-    window.yOS.registerApp(YOS_APP_CONFIG);
+    const appInfo = await window.yOS.registerApp(YOS_APP_CONFIG);
+    console.log('Aplicación registrada:', appInfo);
     
-    // Opcional: Verificar licencia si es app de pago
-    if (YOS_APP_CONFIG.includes('_p_') || YOS_APP_CONFIG.includes('_s_')) {
-        window.yOS.checkLicense(YOS_APP_CONFIG).then(hasLicense => {
-            if (!hasLicense) {
-                // Mostrar pantalla de compra
-                showPurchaseScreen();
-            }
-        });
+    // Si es app de pago, verificar licencia
+    if (appInfo.monetization.type !== 'free') {
+        const hasLicense = await window.yOS.checkLicense(YOS_APP_CONFIG);
+        if (!hasLicense) {
+            showPurchaseScreen(appInfo);
+        }
     }
 }`;
             
-            // Ir al paso 3
             nextStep();
         }
 
-        // Función hash simple (solo para demo)
+        // Función hash simple
         function simpleHash(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
                 const char = str.charCodeAt(i);
                 hash = ((hash << 5) - hash) + char;
-                hash |= 0; // Convertir a entero de 32 bits
+                hash |= 0;
             }
             return Math.abs(hash).toString(16).padStart(8, '0');
         }
 
-        // Copiar API Key al portapapeles
+        // Copiar API Key
         function copyApiKey() {
             const apiKey = document.getElementById('apiKeyDisplay').textContent;
             navigator.clipboard.writeText(apiKey).then(() => {
-                const btn = event.target.closest('button');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<span>✅</span> ¡Copiada!';
-                btn.style.background = '#34a853';
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '¡Copiada!';
+                btn.style.background = '#2e8b47';
                 
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
+                    btn.textContent = originalText;
                     btn.style.background = '';
                 }, 2000);
             });
@@ -774,7 +914,7 @@ if (typeof window.yOS !== 'undefined') {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `yos-app-config-${appData.name.toLowerCase().replace(/\s+/g, '-')}.js`;
+            a.download = `yos-config-${appData.id}.js`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -784,44 +924,49 @@ if (typeof window.yOS !== 'undefined') {
         // Reiniciar
         function startOver() {
             // Resetear datos
-            Object.keys(appData).forEach(key => {
-                appData[key] = key === 'version' ? '1.0.0' : key === 'type' ? 'app' : key === 'monetization' ? 'free' : key === 'price' ? 0 : null;
-            });
+            appData.name = '';
+            appData.id = '';
+            appData.version = '1.0.0';
+            appData.type = 'app';
+            appData.monetization = 'free';
+            appData.price = 0;
+            appData.author.name = '';
+            appData.author.email = '';
+            appData.iconData = null;
+            appData.iconType = null;
             
             // Resetear UI
             document.getElementById('appName').value = '';
+            document.getElementById('appId').value = '';
             document.getElementById('appVersion').value = '1.0.0';
             document.getElementById('appType').value = 'app';
+            document.getElementById('authorName').value = '';
+            document.getElementById('authorEmail').value = '';
             
             document.querySelectorAll('.monetization-option').forEach(option => {
                 option.classList.remove('selected');
             });
             
             document.getElementById('priceGroup').style.display = 'none';
-            document.getElementById('iconPreview').innerHTML = '<div style="color: #999; font-size: 0.9rem;">Vista previa</div>';
+            document.getElementById('iconPreview').innerHTML = '<div style="color: #999; font-size: 14px;">Vista previa</div>';
             
             // Volver al paso 1
-            document.getElementById(`step${currentStep}`).classList.remove('active');
-            document.getElementById(`step${currentStep}Dot`).classList.remove('active');
-            
-            currentStep = 1;
-            
-            document.getElementById(`step${currentStep}`).classList.add('active');
-            document.getElementById(`step${currentStep}Dot`).classList.add('active');
+            currentStep = 3;
+            prevStep();
+            prevStep();
         }
 
         // Inicialización
         document.addEventListener('DOMContentLoaded', () => {
-            // Establecer monetización gratuita por defecto
             selectMonetization('free');
             
-            // Permitir arrastrar y soltar iconos
-            const uploadArea = document.querySelector('.icon-upload');
+            // Permitir arrastrar y soltar
+            const uploadArea = document.querySelector('.icon-upload-area');
             
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                uploadArea.style.borderColor = '#4285f4';
-                uploadArea.style.background = 'rgba(66, 133, 244, 0.1)';
+                uploadArea.style.borderColor = '#1a73e8';
+                uploadArea.style.background = '#f0f7ff';
             });
             
             uploadArea.addEventListener('dragleave', () => {
