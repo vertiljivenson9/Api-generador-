@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yOs App Key Generator</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔑</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4285f4;
+            --primary-dark: #3367d6;
+            --secondary: #34a853;
+            --danger: #ea4335;
+            --warning: #fbbc05;
+            --dark: #202124;
+            --light: #f8f9fa;
+            --gray: #dadce0;
+            --border: #e0e0e0;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        header p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--danger);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+        }
+
+        .price-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .price-input input {
+            flex: 1;
+        }
+
+        .currency {
+            font-weight: bold;
+            color: var(--primary);
+            min-width: 50px;
+        }
+
+        .monetization-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .monetization-option {
+            padding: 20px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .monetization-option:hover {
+            border-color: var(--primary);
+            background: rgba(66, 133, 244, 0.05);
+        }
+
+        .monetization-option.selected {
+            border-color: var(--primary);
+            background: rgba(66, 133, 244, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-icon {
+            font-size: 2rem;
+        }
+
+        .option-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .option-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .icon-upload {
+            border: 3px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-upload:hover {
+            border-color: var(--primary);
+            background: rgba(66, 133, 244, 0.05);
+        }
+
+        .icon-upload input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        .icon-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 15px auto;
+            box-shadow: var(--shadow);
+            border: 3px solid white;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2e8b47;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
+        }
+
+        .result-container {
+            text-align: center;
+        }
+
+        .api-key-display {
+            background: var(--dark);
+            color: var(--warning);
+            padding: 20px;
+            border-radius: var(--radius);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            word-break: break-all;
+            margin: 25px 0;
+            border: 2px solid #333;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .config-preview {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: left;
+            margin: 25px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 5px;
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray);
+            transition: var(--transition);
+        }
+
+        .step-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .monetization-options {
+                grid-template-columns: 1fr;
+            }
+
+            .step-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <span>🔑</span>
+                yOs App Key Generator
+            </h1>
+            <p>Crea tu API Key codificada para publicar aplicaciones en yOs</p>
+        </header>
+
+        <div class="step-indicator">
+            <div class="step-dot active" id="step1Dot"></div>
+            <div class="step-dot" id="step2Dot"></div>
+            <div class="step-dot" id="step3Dot"></div>
+        </div>
+
+        <div class="main-content">
+            <!-- Paso 1: Información básica -->
+            <div class="step active" id="step1">
+                <h2>📝 Información Básica</h2>
+                
+                <div class="form-group">
+                    <label for="appName" class="required">Nombre de la Aplicación</label>
+                    <input type="text" id="appName" placeholder="Ej: Calculadora Pro, Editor de Fotos, Juego Puzzle" maxlength="50" required>
+                    <small style="color: #666; margin-top: 5px; display: block;">Máximo 50 caracteres</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="appVersion" class="required">Versión</label>
+                    <input type="text" id="appVersion" value="1.0.0" pattern="^\d+\.\d+\.\d+$" required>
+                    <small style="color: #666; margin-top: 5px; display: block;">Formato: X.Y.Z (Ej: 1.0.0, 2.1.5)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="appType" class="required">Tipo de Aplicación</label>
+                    <select id="appType">
+                        <option value="app">Aplicación</option>
+                        <option value="game">Juego</option>
+                        <option value="tool">Herramienta</option>
+                        <option value="utility">Utilidad</option>
+                        <option value="productivity">Productividad</option>
+                        <option value="development">Desarrollo</option>
+                        <option value="multimedia">Multimedia</option>
+                    </select>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="btn-secondary" disabled>
+                        <span>◀</span> Anterior
+                    </button>
+                    <button type="button" class="btn-primary" onclick="nextStep()">
+                        Siguiente <span>▶</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Paso 2: Monetización e Icono -->
+            <div class="step" id="step2">
+                <h2>💰 Monetización</h2>
+                
+                <div class="form-group">
+                    <label class="required">Modelo de Monetización</label>
+                    <div class="monetization-options">
+                        <div class="monetization-option" onclick="selectMonetization('free')">
+                            <div class="option-icon">🆓</div>
+                            <div class="option-title">Gratis</div>
+                            <div class="option-desc">Sin costo para usuarios</div>
+                        </div>
+                        <div class="monetization-option" onclick="selectMonetization('paid')">
+                            <div class="option-icon">💰</div>
+                            <div class="option-title">Pago Único</div>
+                            <div class="option-desc">Compra una sola vez</div>
+                        </div>
+                        <div class="monetization-option" onclick="selectMonetization('subscription')">
+                            <div class="option-icon">🔄</div>
+                            <div class="option-title">Suscripción</div>
+                            <div class="option-desc">Pago recurrente</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="priceGroup" style="display: none;">
+                    <label for="appPrice" class="required">Precio (USD)</label>
+                    <div class="price-input">
+                        <input type="number" id="appPrice" min="0.99" max="999.99" step="0.01" value="4.99">
+                        <div class="currency">USD</div>
+                    </div>
+                    <small style="color: #666; margin-top: 5px; display: block;">Rango: $0.99 - $999.99</small>
+                </div>
+
+                <h2 style="margin-top: 40px;">🖼️ Icono de la Aplicación</h2>
+                
+                <div class="form-group">
+                    <div class="icon-upload">
+                        <label class="upload-label" for="iconUpload">
+                            <div class="upload-icon">📁</div>
+                            <div>
+                                <div><strong>Haz clic o arrastra tu icono aquí</strong></div>
+                                <div>SVG, PNG o JPG • Recomendado 512×512px</div>
+                            </div>
+                            <input type="file" id="iconUpload" accept=".svg,.png,.jpg,.jpeg" onchange="previewIcon(event)">
+                        </label>
+                    </div>
+                    
+                    <div class="icon-preview" id="iconPreview">
+                        <div style="color: #999; font-size: 0.9rem;">Vista previa</div>
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="btn-secondary" onclick="prevStep()">
+                        <span>◀</span> Anterior
+                    </button>
+                    <button type="button" class="btn-primary" onclick="generateKey()">
+                        Generar API Key <span>✨</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Paso 3: Resultado -->
+            <div class="step" id="step3">
+                <h2>✅ API Key Generada</h2>
+                
+                <div class="result-container">
+                    <p>¡Tu API Key ha sido creada exitosamente! Cópiala y úsala en tu aplicación.</p>
+                    
+                    <div class="api-key-display" id="apiKeyDisplay">
+                        <!-- La API Key aparecerá aquí -->
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Código para tu app.js:</label>
+                        <div class="config-preview" id="configPreview">
+// Configuración para yOs
+const YOS_APP_CONFIG = "tu_api_key_aquí";
+
+// Inicializar aplicación
+if (typeof window.yOS !== 'undefined') {
+    window.yOS.registerApp(YOS_APP_CONFIG);
+}
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button type="button" class="btn-success" onclick="copyApiKey()">
+                            <span>📋</span> Copiar API Key
+                        </button>
+                        <button type="button" class="btn-primary" onclick="downloadConfig()">
+                            <span>💾</span> Descargar Config
+                        </button>
+                        <button type="button" class="btn-secondary" onclick="startOver()">
+                            <span>🔄</span> Crear Otra
+                        </button>
+                    </div>
+                    
+                    <div style="margin-top: 30px; padding: 15px; background: #f0f8ff; border-radius: var(--radius); border-left: 4px solid var(--primary);">
+                        <strong>📌 Instrucciones:</strong>
+                        <ol style="text-align: left; margin-top: 10px; padding-left: 20px;">
+                            <li>Copia la API Key generada arriba</li>
+                            <li>Pégalo en tu archivo <code>app.js</code></li>
+                            <li>Usa el código de ejemplo para registrar tu app</li>
+                            <li>Cuando publiques, el sistema yOs decodificará automáticamente toda la información</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de la aplicación
+        const appData = {
+            name: '',
+            version: '1.0.0',
+            type: 'app',
+            monetization: 'free',
+            price: 0,
+            iconData: null,
+            iconType: null
+        };
+
+        // Variables de control
+        let currentStep = 1;
+
+        // Funciones de navegación
+        function nextStep() {
+            if (currentStep === 1) {
+                // Validar paso 1
+                const name = document.getElementById('appName').value.trim();
+                const version = document.getElementById('appVersion').value.trim();
+                
+                if (!name || !version) {
+                    alert('Por favor completa todos los campos obligatorios');
+                    return;
+                }
+                
+                if (!/^\d+\.\d+\.\d+$/.test(version)) {
+                    alert('La versión debe seguir el formato X.Y.Z (Ej: 1.0.0)');
+                    return;
+                }
+                
+                // Guardar datos
+                appData.name = name;
+                appData.version = version;
+                appData.type = document.getElementById('appType').value;
+            }
+            
+            // Cambiar paso
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep}Dot`).classList.remove('active');
+            
+            currentStep++;
+            
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}Dot`).classList.add('active');
+        }
+
+        function prevStep() {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep}Dot`).classList.remove('active');
+            
+            currentStep--;
+            
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}Dot`).classList.add('active');
+        }
+
+        // Monetización
+        function selectMonetization(type) {
+            appData.monetization = type;
+            
+            // Actualizar UI
+            document.querySelectorAll('.monetization-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            event.currentTarget.classList.add('selected');
+            
+            // Mostrar/ocultar precio
+            const priceGroup = document.getElementById('priceGroup');
+            const priceInput = document.getElementById('appPrice');
+            
+            if (type === 'free') {
+                priceGroup.style.display = 'none';
+                appData.price = 0;
+            } else {
+                priceGroup.style.display = 'block';
+                priceInput.value = type === 'paid' ? '4.99' : '1.99';
+                priceInput.min = type === 'subscription' ? '0.99' : '0.99';
+                priceInput.step = type === 'subscription' ? '0.01' : '0.01';
+            }
+        }
+
+        // Manejo de icono
+        function previewIcon(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validar tipo
+            const validTypes = ['image/svg+xml', 'image/png', 'image/jpeg', 'image/jpg'];
+            if (!validTypes.includes(file.type)) {
+                alert('Formato no válido. Usa SVG, PNG o JPG.');
+                return;
+            }
+            
+            // Validar tamaño (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('El archivo es muy grande. Máximo 2MB.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('iconPreview');
+                preview.innerHTML = `<img src="${e.target.result}" alt="Icono">`;
+                
+                appData.iconData = e.target.result;
+                appData.iconType = file.type;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Generar API Key
+        function generateKey() {
+            // Validar paso 2
+            if (appData.monetization !== 'free') {
+                const price = parseFloat(document.getElementById('appPrice').value);
+                if (isNaN(price) || price < 0.99 || price > 999.99) {
+                    alert('Precio inválido. Debe estar entre $0.99 y $999.99');
+                    return;
+                }
+                appData.price = price;
+            }
+            
+            // Validar icono
+            if (!appData.iconData) {
+                if (!confirm('No has subido un icono. ¿Continuar sin icono? (Recomendado: subir icono)')) {
+                    return;
+                }
+            }
+            
+            // Crear metadata
+            const metadata = {
+                n: appData.name.substring(0, 50),
+                v: appData.version,
+                t: appData.type,
+                m: appData.monetization,
+                p: appData.price,
+                c: 'USD',
+                ts: Date.now(),
+                ct: Math.floor(Date.now() / 1000)
+            };
+            
+            // Agregar icono si existe
+            if (appData.iconData) {
+                metadata.i = true;
+                metadata.it = appData.iconType;
+            }
+            
+            // 1. Convertir a JSON y comprimir
+            const jsonString = JSON.stringify(metadata);
+            const compressed = btoa(unescape(encodeURIComponent(jsonString)));
+            
+            // 2. Generar hash simple (en producción usar SHA-256)
+            const hash = simpleHash(compressed).substring(0, 8);
+            
+            // 3. Crear API Key
+            const priceInCents = Math.round(appData.price * 100);
+            const monetizationCode = appData.monetization.charAt(0); // f, p, s
+            
+            const apiKey = `yos_app_1_${monetizationCode}_${priceInCents}_${hash}_${compressed}`;
+            
+            // Mostrar resultado
+            document.getElementById('apiKeyDisplay').textContent = apiKey;
+            
+            // Mostrar código de ejemplo
+            document.getElementById('configPreview').textContent = `// Configuración para yOs
+const YOS_APP_CONFIG = "${apiKey}";
+
+// Inicializar aplicación
+if (typeof window.yOS !== 'undefined') {
+    window.yOS.registerApp(YOS_APP_CONFIG);
+    
+    // Opcional: Verificar licencia si es app de pago
+    if (YOS_APP_CONFIG.includes('_p_') || YOS_APP_CONFIG.includes('_s_')) {
+        window.yOS.checkLicense(YOS_APP_CONFIG).then(hasLicense => {
+            if (!hasLicense) {
+                // Mostrar pantalla de compra
+                showPurchaseScreen();
+            }
+        });
+    }
+}`;
+            
+            // Ir al paso 3
+            nextStep();
+        }
+
+        // Función hash simple (solo para demo)
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash |= 0; // Convertir a entero de 32 bits
+            }
+            return Math.abs(hash).toString(16).padStart(8, '0');
+        }
+
+        // Copiar API Key al portapapeles
+        function copyApiKey() {
+            const apiKey = document.getElementById('apiKeyDisplay').textContent;
+            navigator.clipboard.writeText(apiKey).then(() => {
+                const btn = event.target.closest('button');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span>✅</span> ¡Copiada!';
+                btn.style.background = '#34a853';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Descargar configuración
+        function downloadConfig() {
+            const config = document.getElementById('configPreview').textContent;
+            const blob = new Blob([config], { type: 'application/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `yos-app-config-${appData.name.toLowerCase().replace(/\s+/g, '-')}.js`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Reiniciar
+        function startOver() {
+            // Resetear datos
+            Object.keys(appData).forEach(key => {
+                appData[key] = key === 'version' ? '1.0.0' : key === 'type' ? 'app' : key === 'monetization' ? 'free' : key === 'price' ? 0 : null;
+            });
+            
+            // Resetear UI
+            document.getElementById('appName').value = '';
+            document.getElementById('appVersion').value = '1.0.0';
+            document.getElementById('appType').value = 'app';
+            
+            document.querySelectorAll('.monetization-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('priceGroup').style.display = 'none';
+            document.getElementById('iconPreview').innerHTML = '<div style="color: #999; font-size: 0.9rem;">Vista previa</div>';
+            
+            // Volver al paso 1
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep}Dot`).classList.remove('active');
+            
+            currentStep = 1;
+            
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}Dot`).classList.add('active');
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            // Establecer monetización gratuita por defecto
+            selectMonetization('free');
+            
+            // Permitir arrastrar y soltar iconos
+            const uploadArea = document.querySelector('.icon-upload');
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#4285f4';
+                uploadArea.style.background = 'rgba(66, 133, 244, 0.1)';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '';
+                uploadArea.style.background = '';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '';
+                uploadArea.style.background = '';
+                
+                if (e.dataTransfer.files.length) {
+                    document.getElementById('iconUpload').files = e.dataTransfer.files;
+                    previewIcon({ target: document.getElementById('iconUpload') });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
